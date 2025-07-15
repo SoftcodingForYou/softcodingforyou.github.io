@@ -315,7 +315,46 @@ function initializeLanguageSelector() {
     }
 }
 
+// Coin flip animation on page load
+function initializeCoinAnimation() {
+    const coin = document.querySelector('.coin');
+    if (coin) {
+        let currentRotation = 0;
+        let isOnLogoSide = false; // Start on profile side
+        
+        // Trigger animation after a short delay to ensure page is loaded
+        setTimeout(() => {
+            coin.classList.add('spinning');
+            
+            // Remove the spinning class after animation completes
+            // Animation ends on same face (profile picture)
+            setTimeout(() => {
+                coin.classList.remove('spinning');
+                currentRotation = 720; // 2 full rotations, still on profile side
+                coin.style.transform = 'rotateY(720deg)'; // Keep it on the profile side
+            }, 2000); // Match animation duration
+        }, 500); // Small delay for page load
+        
+        // Handle hover to flip to opposite side only
+        coin.addEventListener('mouseenter', () => {
+            if (!coin.classList.contains('spinning')) {
+                if (!isOnLogoSide) {
+                    // Currently on profile, flip to logo
+                    currentRotation += 540; // 1.5 spins to logo side
+                    isOnLogoSide = true;
+                } else {
+                    // Currently on logo, flip back to profile
+                    currentRotation += 540; // 1.5 spins back to profile side  
+                    isOnLogoSide = false;
+                }
+                coin.style.transform = `rotateY(${currentRotation}deg)`;
+            }
+        });
+    }
+}
+
 // Initialize language system when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
     initializeLanguageSelector();
+    initializeCoinAnimation();
 });
