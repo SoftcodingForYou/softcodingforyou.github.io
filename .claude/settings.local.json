@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls:*)",
+      "WebFetch(domain:davidbaum.org)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:astronomiaciudaddeleste.godaddysites.com)",
+      "Bash(find:*)",
+      "Bash(cp:*)",
+      "Bash(mkdir:*)",
+      "Bash(mv:*)",
+      "Bash(rm:*)",
+      "WebFetch(domain:securicata.app)",
+      "WebFetch(domain:mi.securicata.app)"
+    ],
+    "deny": []
+  }
+}
