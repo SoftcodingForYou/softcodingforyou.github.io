@@ -227,3 +227,95 @@ const throttledScrollHandler = throttle(function() {
 }, 16); // ~60fps
 
 window.addEventListener('scroll', throttledScrollHandler);
+
+// Translation System
+const translations = {
+    en: {
+        'nav.about': 'About',
+        'nav.projects': 'Projects',
+        'nav.experience': 'Experience',
+        'nav.skills': 'Skills',
+        'nav.contact': 'Contact',
+        'hero.title1': 'Research Engineer',
+        'hero.title2': 'Software Developer',
+        'hero.subtitle': 'Bridging neuroscience and technology through innovative applications. Specializing in brain-computer interfaces, mobile apps, and cross-platform development.',
+        'hero.cta1': 'Explore My Work',
+        'hero.cta2': 'Connect'
+    },
+    de: {
+        'nav.about': 'Über mich',
+        'nav.projects': 'Projekte',
+        'nav.experience': 'Erfahrung',
+        'nav.skills': 'Fähigkeiten',
+        'nav.contact': 'Kontakt',
+        'hero.title1': 'Forschungsingenieur',
+        'hero.title2': 'Softwareentwickler',
+        'hero.subtitle': 'Verbindung von Neurowissenschaft und Technologie durch innovative Anwendungen. Spezialisiert auf Gehirn-Computer-Schnittstellen, mobile Apps und plattformübergreifende Entwicklung.',
+        'hero.cta1': 'Meine Arbeit entdecken',
+        'hero.cta2': 'Verbinden'
+    },
+    fr: {
+        'nav.about': 'À propos',
+        'nav.projects': 'Projets',
+        'nav.experience': 'Expérience',
+        'nav.skills': 'Compétences',
+        'nav.contact': 'Contact',
+        'hero.title1': 'Ingénieur de recherche',
+        'hero.title2': 'Développeur logiciel',
+        'hero.subtitle': 'Connecter les neurosciences et la technologie par des applications innovantes. Spécialisé dans les interfaces cerveau-ordinateur, les applications mobiles et le développement multiplateforme.',
+        'hero.cta1': 'Explorer mon travail',
+        'hero.cta2': 'Se connecter'
+    },
+    es: {
+        'nav.about': 'Acerca de',
+        'nav.projects': 'Proyectos',
+        'nav.experience': 'Experiencia',
+        'nav.skills': 'Habilidades',
+        'nav.contact': 'Contacto',
+        'hero.title1': 'Ingeniero de investigación',
+        'hero.title2': 'Desarrollador de software',
+        'hero.subtitle': 'Conectando neurociencia y tecnología a través de aplicaciones innovadoras. Especializado en interfaces cerebro-computadora, aplicaciones móviles y desarrollo multiplataforma.',
+        'hero.cta1': 'Explorar mi trabajo',
+        'hero.cta2': 'Conectar'
+    }
+};
+
+let currentLanguage = localStorage.getItem('language') || 'en';
+
+function translatePage(language) {
+    const elements = document.querySelectorAll('[data-i18n]');
+    elements.forEach(element => {
+        const key = element.getAttribute('data-i18n');
+        if (translations[language] && translations[language][key]) {
+            element.textContent = translations[language][key];
+        }
+    });
+    
+    // Update HTML lang attribute
+    document.documentElement.lang = language;
+    
+    // Save language preference
+    localStorage.setItem('language', language);
+    currentLanguage = language;
+}
+
+function initializeLanguageSelector() {
+    const languageSelect = document.getElementById('language-select');
+    if (languageSelect) {
+        // Set current language
+        languageSelect.value = currentLanguage;
+        
+        // Add event listener
+        languageSelect.addEventListener('change', (e) => {
+            translatePage(e.target.value);
+        });
+        
+        // Translate page on load
+        translatePage(currentLanguage);
+    }
+}
+
+// Initialize language system when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    initializeLanguageSelector();
+});
