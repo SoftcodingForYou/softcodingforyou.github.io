@@ -41,17 +41,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Navbar Background on Scroll
-window.addEventListener('scroll', function() {
-    const nav = document.querySelector('.nav');
-    if (window.scrollY > 100) {
-        nav.style.background = 'rgba(255, 255, 255, 0.98)';
-        nav.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1)';
-    } else {
-        nav.style.background = 'rgba(255, 255, 255, 0.95)';
-        nav.style.boxShadow = 'none';
-    }
-});
+// Navbar Background on Scroll (handled by throttled scroll handler)
 
 // Animate Skill Bars on Scroll
 function animateSkillBars() {
@@ -214,14 +204,7 @@ function throttle(func, limit) {
 // Apply throttling to scroll events
 const throttledScrollHandler = throttle(function() {
     // Navbar background change
-    const nav = document.querySelector('.nav');
-    if (window.scrollY > 100) {
-        nav.style.background = 'rgba(255, 255, 255, 0.98)';
-        nav.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1)';
-    } else {
-        nav.style.background = 'rgba(255, 255, 255, 0.95)';
-        nav.style.boxShadow = 'none';
-    }
+    updateNavbarBackground();
     
     // Removed parallax effect
 }, 16); // ~60fps
@@ -353,8 +336,56 @@ function initializeCoinAnimation() {
     }
 }
 
+// Dark Mode System
+function getSystemTheme() {
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
+
+// Initialize with system preference if no saved preference
+let currentTheme = localStorage.getItem('theme') || getSystemTheme();
+
+function setTheme(theme) {
+    if (theme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        document.getElementById('theme-toggle').innerHTML = '<i class="fas fa-sun"></i>';
+    } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        document.getElementById('theme-toggle').innerHTML = '<i class="fas fa-moon"></i>';
+    }
+    
+    localStorage.setItem('theme', theme);
+    currentTheme = theme;
+}
+
+function toggleTheme() {
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    setTheme(newTheme);
+}
+
+function updateNavbarBackground() {
+    const nav = document.querySelector('.nav');
+    
+    if (window.scrollY > 100) {
+        nav.classList.add('scrolled');
+    } else {
+        nav.classList.remove('scrolled');
+    }
+}
+
+function initializeThemeSystem() {
+    const themeToggle = document.getElementById('theme-toggle');
+    if (themeToggle) {
+        // Set initial theme
+        setTheme(currentTheme);
+        
+        // Add event listener
+        themeToggle.addEventListener('click', toggleTheme);
+    }
+}
+
 // Initialize language system when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
     initializeLanguageSelector();
     initializeCoinAnimation();
+    initializeThemeSystem();
 });
