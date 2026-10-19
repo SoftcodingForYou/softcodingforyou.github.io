@@ -1,191 +1,52 @@
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
 // Mobile Navigation Toggle
-document.addEventListener('DOMContentLoaded', function() {
+function initializeMobileMenu() {
     const navToggle = document.querySelector('.nav-toggle');
     const navMenu = document.querySelector('.nav-menu');
-    
-    navToggle.addEventListener('click', function() {
-        navMenu.classList.toggle('active');
-        
-        // Animate hamburger menu
-        const spans = navToggle.querySelectorAll('span');
-        spans.forEach((span, index) => {
-            span.style.transform = navMenu.classList.contains('active') 
-                ? `rotate(${index === 1 ? 45 : index === 0 ? 45 : -45}deg) translate(${index === 1 ? 0 : index === 0 ? 5 : -5}px, ${index === 1 ? 0 : index === 0 ? 5 : -5}px)`
-                : 'none';
-        });
+    if (!navToggle || !navMenu) return;
+
+    const setMenuOpen = (open) => {
+        navMenu.classList.toggle('active', open);
+        navToggle.classList.toggle('active', open);
+        navToggle.setAttribute('aria-expanded', String(open));
+        navToggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    };
+
+    navToggle.addEventListener('click', () => {
+        setMenuOpen(!navMenu.classList.contains('active'));
     });
 
     // Close mobile menu when clicking on links
-    document.querySelectorAll('.nav-menu a').forEach(link => {
-        link.addEventListener('click', () => {
-            navMenu.classList.remove('active');
-            const spans = navToggle.querySelectorAll('span');
-            spans.forEach(span => {
-                span.style.transform = 'none';
-            });
-        });
+    navMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => setMenuOpen(false));
     });
-});
+}
 
-// Smooth Scrolling for Navigation Links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
-    });
-});
+// Smooth scrolling and the fixed-nav offset are handled in CSS (scroll-behavior, scroll-margin-top)
 
-// Navbar Background on Scroll (handled by throttled scroll handler)
+// Reveal cards as they scroll into view
+function addScrollAnimations() {
+    if (prefersReducedMotion.matches || !('IntersectionObserver' in window)) return;
 
-// Animate Skill Bars on Scroll
-function animateSkillBars() {
-    const skillBars = document.querySelectorAll('.skill-bar');
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                const skillBar = entry.target;
-                const level = skillBar.getAttribute('data-level');
-                skillBar.style.width = (level * 20) + '%';
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
             }
         });
     }, {
-        threshold: 0.5
-    });
-
-    skillBars.forEach(bar => {
-        bar.style.width = '0%';
-        observer.observe(bar);
-    });
-}
-
-// Initialize animations when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
-    animateSkillBars();
-});
-
-// Add scroll-triggered animations for sections
-function addScrollAnimations() {
-    const observerOptions = {
         threshold: 0.1,
         rootMargin: '0px 0px -50px 0px'
-    };
+    });
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-            }
-        });
-    }, observerOptions);
-
-    // Observe elements for animation
-    const elementsToAnimate = document.querySelectorAll('.project-card, .skill-category, .credential, .contact-link');
+    const elementsToAnimate = document.querySelectorAll('.project-card, .experience-card, .skill-category, .timeline-item');
     elementsToAnimate.forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(30px)';
-        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        el.classList.add('reveal');
         observer.observe(el);
     });
 }
-
-// Initialize scroll animations
-document.addEventListener('DOMContentLoaded', function() {
-    // Delay to ensure CSS is loaded
-    setTimeout(addScrollAnimations, 100);
-});
-
-// Add typing effect to hero title
-function typeWriter() {
-    const heroTitle = document.querySelector('.hero-title');
-    if (!heroTitle) return;
-    
-    const originalText = heroTitle.innerHTML;
-    const words = originalText.split(' ');
-    heroTitle.innerHTML = '';
-    
-    let wordIndex = 0;
-    let charIndex = 0;
-    
-    function type() {
-        if (wordIndex < words.length) {
-            const currentWord = words[wordIndex];
-            
-            if (charIndex < currentWord.length) {
-                heroTitle.innerHTML += currentWord.charAt(charIndex);
-                charIndex++;
-                setTimeout(type, 50);
-            } else {
-                // Add space after word (except last word)
-                if (wordIndex < words.length - 1) {
-                    heroTitle.innerHTML += ' ';
-                }
-                wordIndex++;
-                charIndex = 0;
-                setTimeout(type, 100);
-            }
-        }
-    }
-    
-    // Start typing effect after a delay
-    setTimeout(type, 500);
-}
-
-// Project card hover effects
-document.addEventListener('DOMContentLoaded', function() {
-    const projectCards = document.querySelectorAll('.project-card');
-    
-    projectCards.forEach(card => {
-        card.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-8px) scale(1.02)';
-        });
-        
-        card.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0) scale(1)';
-        });
-    });
-});
-
-// Removed parallax effect for cleaner design
-
-// Add loading animation
-window.addEventListener('load', function() {
-    document.body.style.opacity = '0';
-    document.body.style.transition = 'opacity 0.5s ease-in-out';
-    
-    setTimeout(() => {
-        document.body.style.opacity = '1';
-    }, 100);
-});
-
-// Contact form handling (if added later)
-function initContactForm() {
-    const contactForm = document.querySelector('#contact-form');
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            // Add form submission logic here
-            console.log('Form submitted');
-        });
-    }
-}
-
-// Initialize all features
-document.addEventListener('DOMContentLoaded', function() {
-    initContactForm();
-    
-    // Add subtle animation delay to elements
-    const animatedElements = document.querySelectorAll('.credential, .project-card:not(.featured)');
-    animatedElements.forEach((el, index) => {
-        el.style.animationDelay = `${index * 0.1}s`;
-    });
-});
 
 // Performance optimization: Throttle scroll events
 function throttle(func, limit) {
@@ -201,15 +62,20 @@ function throttle(func, limit) {
     }
 }
 
-// Apply throttling to scroll events
-const throttledScrollHandler = throttle(function() {
-    // Navbar background change
-    updateNavbarBackground();
-    
-    // Removed parallax effect
-}, 16); // ~60fps
+function updateNavbarBackground() {
+    const nav = document.querySelector('.nav');
 
-window.addEventListener('scroll', throttledScrollHandler);
+    if (window.scrollY > 100) {
+        nav.classList.add('scrolled');
+    } else {
+        nav.classList.remove('scrolled');
+    }
+}
+
+// Apply throttling to scroll events
+const throttledScrollHandler = throttle(updateNavbarBackground, 16); // ~60fps
+
+window.addEventListener('scroll', throttledScrollHandler, { passive: true });
 
 // Translation System
 const translations = {
@@ -218,48 +84,44 @@ const translations = {
         'nav.projects': 'Projects',
         'nav.experience': 'Experience',
         'nav.skills': 'Skills',
-        'nav.contact': 'Contact',
         'hero.title1': 'Research Engineer',
         'hero.title2': 'Software Developer',
-        'hero.subtitle': 'Bridging neuroscience and technology through innovative applications. Specializing in brain-computer interfaces, mobile apps, and cross-platform development.',
+        'hero.subtitle': 'I build software for neuroscience research and for everyday use: brain-computer interfaces, signal processing tools, and mobile and desktop apps.',
         'hero.cta1': 'Explore My Work',
-        'hero.cta2': 'Connect'
+        'hero.cta2': 'View on GitHub'
     },
     de: {
         'nav.about': 'Über mich',
         'nav.projects': 'Projekte',
         'nav.experience': 'Erfahrung',
         'nav.skills': 'Fähigkeiten',
-        'nav.contact': 'Kontakt',
         'hero.title1': 'Forschungsingenieur',
         'hero.title2': 'Softwareentwickler',
-        'hero.subtitle': 'Verbindung von Neurowissenschaft und Technologie durch innovative Anwendungen. Spezialisiert auf Gehirn-Computer-Schnittstellen, mobile Apps und plattformübergreifende Entwicklung.',
+        'hero.subtitle': 'Ich entwickle Software für die neurowissenschaftliche Forschung und für den Alltag: Gehirn-Computer-Schnittstellen, Werkzeuge zur Signalverarbeitung sowie Mobil- und Desktop-Apps.',
         'hero.cta1': 'Meine Arbeit entdecken',
-        'hero.cta2': 'Verbinden'
+        'hero.cta2': 'Auf GitHub ansehen'
     },
     fr: {
         'nav.about': 'À propos',
         'nav.projects': 'Projets',
         'nav.experience': 'Expérience',
         'nav.skills': 'Compétences',
-        'nav.contact': 'Contact',
         'hero.title1': 'Ingénieur de recherche',
         'hero.title2': 'Développeur logiciel',
-        'hero.subtitle': 'Connecter les neurosciences et la technologie par des applications innovantes. Spécialisé dans les interfaces cerveau-ordinateur, les applications mobiles et le développement multiplateforme.',
+        'hero.subtitle': 'Je développe des logiciels pour la recherche en neurosciences et pour le quotidien : interfaces cerveau-ordinateur, outils de traitement du signal, applications mobiles et de bureau.',
         'hero.cta1': 'Explorer mon travail',
-        'hero.cta2': 'Se connecter'
+        'hero.cta2': 'Voir sur GitHub'
     },
     es: {
         'nav.about': 'Acerca de',
         'nav.projects': 'Proyectos',
         'nav.experience': 'Experiencia',
         'nav.skills': 'Habilidades',
-        'nav.contact': 'Contacto',
         'hero.title1': 'Ingeniero de investigación',
         'hero.title2': 'Desarrollador de software',
-        'hero.subtitle': 'Conectando neurociencia y tecnología a través de aplicaciones innovadoras. Especializado en interfaces cerebro-computadora, aplicaciones móviles y desarrollo multiplataforma.',
+        'hero.subtitle': 'Desarrollo software para la investigación en neurociencia y para el día a día: interfaces cerebro-computadora, herramientas de procesamiento de señales y aplicaciones móviles y de escritorio.',
         'hero.cta1': 'Explorar mi trabajo',
-        'hero.cta2': 'Conectar'
+        'hero.cta2': 'Ver en GitHub'
     }
 };
 
@@ -273,10 +135,10 @@ function translatePage(language) {
             element.textContent = translations[language][key];
         }
     });
-    
+
     // Update HTML lang attribute
     document.documentElement.lang = language;
-    
+
     // Save language preference
     localStorage.setItem('language', language);
     currentLanguage = language;
@@ -287,105 +149,136 @@ function initializeLanguageSelector() {
     if (languageSelect) {
         // Set current language
         languageSelect.value = currentLanguage;
-        
+
         // Add event listener
         languageSelect.addEventListener('change', (e) => {
             translatePage(e.target.value);
         });
-        
+
         // Translate page on load
         translatePage(currentLanguage);
     }
 }
 
-// Coin flip animation on page load
+// Coin flip between the portrait and the mascot
 function initializeCoinAnimation() {
+    const coinContainer = document.querySelector('.coin-container');
     const coin = document.querySelector('.coin');
-    if (coin) {
-        let currentRotation = 0;
-        let isOnLogoSide = false; // Start on profile side
-        
-        // Trigger animation after a short delay to ensure page is loaded
+    if (!coinContainer || !coin) return;
+
+    let currentRotation = 0;
+    let isOnMascotSide = false; // Start on profile side
+    let isSpinning = false;
+    let lastPointerType = '';
+
+    const flip = () => {
+        if (isSpinning) return;
+        currentRotation += 540; // 1.5 spins to the opposite side
+        isOnMascotSide = !isOnMascotSide;
+        coin.style.transform = `rotateY(${currentRotation}deg)`;
+        coinContainer.setAttribute('aria-pressed', String(isOnMascotSide));
+    };
+
+    // Two full spins on page load, ending on the profile picture
+    if (!prefersReducedMotion.matches) {
+        isSpinning = true;
         setTimeout(() => {
             coin.classList.add('spinning');
-            
-            // Remove the spinning class after animation completes
-            // Animation ends on same face (profile picture)
+
             setTimeout(() => {
                 coin.classList.remove('spinning');
                 currentRotation = 720; // 2 full rotations, still on profile side
-                coin.style.transform = 'rotateY(720deg)'; // Keep it on the profile side
+                coin.style.transform = 'rotateY(720deg)';
+                isSpinning = false;
             }, 2000); // Match animation duration
         }, 500); // Small delay for page load
-        
-        // Handle hover to flip to opposite side only
-        coin.addEventListener('mouseenter', () => {
-            if (!coin.classList.contains('spinning')) {
-                if (!isOnLogoSide) {
-                    // Currently on profile, flip to logo
-                    currentRotation += 540; // 1.5 spins to logo side
-                    isOnLogoSide = true;
-                } else {
-                    // Currently on logo, flip back to profile
-                    currentRotation += 540; // 1.5 spins back to profile side  
-                    isOnLogoSide = false;
-                }
-                coin.style.transform = `rotateY(${currentRotation}deg)`;
-            }
-        });
     }
+
+    // Mouse flips on hover; touch and pen flip on tap; keyboard flips on Enter or Space
+    coinContainer.addEventListener('pointerdown', (e) => {
+        lastPointerType = e.pointerType;
+    });
+
+    coinContainer.addEventListener('pointerenter', (e) => {
+        if (e.pointerType === 'mouse') flip();
+    });
+
+    coinContainer.addEventListener('click', () => {
+        if (lastPointerType !== 'mouse') flip();
+        lastPointerType = '';
+    });
+
+    coinContainer.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            flip();
+        }
+    });
 }
 
 // Dark Mode System
-function getSystemTheme() {
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-}
+const systemDarkQuery = window.matchMedia('(prefers-color-scheme: dark)');
 
-// Initialize with system preference if no saved preference
-let currentTheme = localStorage.getItem('theme') || getSystemTheme();
-
-function setTheme(theme) {
-    if (theme === 'dark') {
-        document.documentElement.setAttribute('data-theme', 'dark');
-        document.getElementById('theme-toggle').innerHTML = '<i class="fas fa-sun"></i>';
-    } else {
-        document.documentElement.setAttribute('data-theme', 'light');
-        document.getElementById('theme-toggle').innerHTML = '<i class="fas fa-moon"></i>';
+function getSavedTheme() {
+    try {
+        return localStorage.getItem('theme');
+    } catch (e) {
+        return null;
     }
-    
-    localStorage.setItem('theme', theme);
-    currentTheme = theme;
 }
 
-function toggleTheme() {
-    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-    setTheme(newTheme);
-}
+function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
 
-function updateNavbarBackground() {
-    const nav = document.querySelector('.nav');
-    
-    if (window.scrollY > 100) {
-        nav.classList.add('scrolled');
-    } else {
-        nav.classList.remove('scrolled');
+    const themeColor = document.querySelector('meta[name="theme-color"]');
+    if (themeColor) {
+        themeColor.setAttribute('content', theme === 'dark' ? '#123F26' : '#F3F9EC');
+    }
+
+    const themeToggle = document.getElementById('theme-toggle');
+    if (themeToggle) {
+        themeToggle.innerHTML = `<i class="fas fa-${theme === 'dark' ? 'sun' : 'moon'}" aria-hidden="true"></i>`;
+        themeToggle.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
     }
 }
 
 function initializeThemeSystem() {
+    // The inline script in <head> already set data-theme before first paint
+    applyTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
+
     const themeToggle = document.getElementById('theme-toggle');
     if (themeToggle) {
-        // Set initial theme
-        setTheme(currentTheme);
-        
-        // Add event listener
-        themeToggle.addEventListener('click', toggleTheme);
+        themeToggle.addEventListener('click', () => {
+            const newTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            try {
+                localStorage.setItem('theme', newTheme);
+            } catch (e) {}
+            applyTheme(newTheme);
+        });
+    }
+
+    // Follow the OS setting until the visitor picks a theme explicitly
+    systemDarkQuery.addEventListener('change', (e) => {
+        if (!getSavedTheme()) {
+            applyTheme(e.matches ? 'dark' : 'light');
+        }
+    });
+}
+
+function initializeFooterYear() {
+    const year = document.getElementById('current-year');
+    if (year) {
+        year.textContent = new Date().getFullYear();
     }
 }
 
-// Initialize language system when DOM is loaded
+// Initialize all features when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
+    initializeMobileMenu();
     initializeLanguageSelector();
     initializeCoinAnimation();
     initializeThemeSystem();
+    initializeFooterYear();
+    addScrollAnimations();
+    updateNavbarBackground();
 });

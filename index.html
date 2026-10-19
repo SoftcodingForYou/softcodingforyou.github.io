@@ -3,80 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="David Baum - Research Engineer & Software Developer | Neuroscience, Brain-Computer Interfaces, Mobile & Desktop Apps">
-    <title>David Baum | SoftcodingForYou - Portfolio</title>
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/SoftcodingForYou_round.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/SoftcodingForYou_round.png">
-    <link rel="apple-touch-icon" href="assets/images/SoftcodingForYou_round.png">
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="description" content="David Baum, PhD - Research Engineer & Software Developer | Neuroscience, Brain-Computer Interfaces, Mobile & Desktop Apps. Independent work as softcoding for you.">
+    <meta name="theme-color" content="#F3F9EC">
+    <title>David Baum, PhD | softcoding.for(you)</title>
+    <script>
+        // Apply the saved or system theme before first paint, so the page never flashes the wrong theme
+        (function () {
+            var theme;
+            try { theme = localStorage.getItem('theme'); } catch (e) {}
+            if (theme !== 'light' && theme !== 'dark') {
+                theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            }
+            document.documentElement.setAttribute('data-theme', theme);
+            document.querySelector('meta[name="theme-color"]').setAttribute('content', theme === 'dark' ? '#123F26' : '#F3F9EC');
+        })();
+    </script>
+    <link rel="icon" href="favicon.ico" sizes="32x32">
+    <link rel="icon" href="assets/brand/favicon/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/brand/favicon/apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Recursive:wght,CASL,MONO@300..800,0..1,0..1&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <nav class="nav">
+    <nav class="nav" aria-label="Main">
         <div class="nav-container">
-            <div class="nav-brand">
-                <img src="assets/images/SoftcodingForYou_round.png" alt="SoftcodingForYou Logo" class="nav-logo">
-                <div class="nav-text">
-                    <h1>David Baum</h1>
-                    <span class="pseudonym">SoftcodingForYou</span>
-                </div>
-            </div>
-            <ul class="nav-menu">
+            <a href="#top" class="nav-brand">
+                <img src="assets/brand/mascot/bommel-mark.svg" alt="" class="nav-logo" width="40" height="40">
+                <span class="nav-text">
+                    <span class="nav-name">David Baum, PhD</span>
+                    <span class="nav-sub code-lockup"><span class="cl-word">softcoding</span><span class="cl-punct">.for(</span><span class="cl-you">you</span><span class="cl-punct">)</span></span>
+                </span>
+            </a>
+            <ul class="nav-menu" id="nav-menu">
                 <li><a href="#about" data-i18n="nav.about">About</a></li>
                 <li><a href="#projects" data-i18n="nav.projects">Projects</a></li>
                 <li><a href="#experience" data-i18n="nav.experience">Experience</a></li>
                 <li><a href="#skills" data-i18n="nav.skills">Skills</a></li>
-                <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
                 <li class="language-selector">
-                    <select id="language-select">
-                        <option value="en">🇺🇸 EN</option>
-                        <option value="de">🇩🇪 DE</option>
-                        <option value="fr">🇫🇷 FR</option>
-                        <option value="es">🇪🇸 ES</option>
+                    <select id="language-select" aria-label="Language">
+                        <option value="en">EN</option>
+                        <option value="de">DE</option>
+                        <option value="fr">FR</option>
+                        <option value="es">ES</option>
                     </select>
                 </li>
                 <li class="theme-toggle">
-                    <button id="theme-toggle" aria-label="Toggle dark mode">
-                        <i class="fas fa-moon"></i>
+                    <button id="theme-toggle" type="button" aria-label="Toggle dark mode">
+                        <i class="fas fa-moon" aria-hidden="true"></i>
                     </button>
                 </li>
             </ul>
-            <div class="nav-toggle">
+            <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-menu">
                 <span></span>
                 <span></span>
                 <span></span>
-            </div>
+            </button>
         </div>
     </nav>
 
     <main>
-        <section class="hero">
+        <section class="hero" id="top">
             <div class="hero-container">
                 <div class="hero-content">
                     <h1 class="hero-title">
-                        <span data-i18n="hero.title1">Research Engineer</span> & 
+                        <span data-i18n="hero.title1">Research Engineer</span> &amp;
                         <span class="highlight" data-i18n="hero.title2">Software Developer</span>
                     </h1>
                     <p class="hero-subtitle" data-i18n="hero.subtitle">
-                        Bridging neuroscience and technology through innovative applications.
-                        Specializing in brain-computer interfaces, mobile apps, and cross-platform development.
+                        I build software for neuroscience research and for everyday use:
+                        brain-computer interfaces, signal processing tools, and mobile and desktop apps.
                     </p>
                     <div class="hero-cta">
                         <a href="#projects" class="btn btn-primary" data-i18n="hero.cta1">Explore My Work</a>
-                        <a href="https://www.linkedin.com/in/david-marcel-baum/" class="btn btn-secondary" target="_blank" rel="noopener">
-                            <i class="fab fa-linkedin"></i> <span data-i18n="hero.cta2">Connect</span>
+                        <a href="https://github.com/softcodingforyou" class="btn btn-secondary" target="_blank" rel="noopener">
+                            <i class="fab fa-github" aria-hidden="true"></i> <span data-i18n="hero.cta2">View on GitHub</span>
                         </a>
                     </div>
                 </div>
                 <div class="hero-image">
-                    <div class="coin-container">
+                    <div class="coin-container" role="button" tabindex="0" aria-pressed="false" aria-label="Flip between David's portrait and the softcoding for you mascot">
                         <div class="coin">
                             <div class="coin-face front">
-                                <img src="assets/images/DM_BAUM_Profile_Picture.png" alt="David Baum" class="profile-image">
+                                <img src="assets/images/david-baum-480.webp" alt="David Baum" class="profile-image" width="480" height="480">
                             </div>
                             <div class="coin-face back">
-                                <img src="assets/images/SoftcodingForYou_round.png" alt="SoftcodingForYou Logo" class="logo-image">
+                                <img src="assets/brand/mascot/bommel-hi.svg" alt="Bommel, the softcoding for you mascot" class="mascot-image" width="240" height="240">
                             </div>
                         </div>
                     </div>
@@ -84,97 +98,145 @@
             </div>
         </section>
 
-        <section id="about" class="about">
+        <section id="about" class="about section-alt">
             <div class="container">
-                <h2 class="section-title">About Me</h2>
-                <div class="about-content">
+                <header class="section-header">
+                    <h2 class="section-title">About Me</h2>
+                </header>
+                <div class="about-grid">
                     <div class="about-text">
                         <p class="lead">
-                            I'm a Research Engineer at InteraXon Inc. (Muse) in Toronto, combining my PhD in Neurophysiology 
-                            with expertise in software development to create innovative solutions.
+                            I'm a Research Engineer at InteraXon Inc. (Muse) in Toronto. I have a PhD in Neurophysiology,
+                            and most of my work sits where that research meets software.
                         </p>
                         <p>
-                            As a former co-founder & CTO of Helment and a freelance developer under the pseudonym 
-                            <strong>SoftcodingForYou</strong>, I develop applications that bridge the gap between 
-                            cutting-edge neuroscience research and practical technology solutions. I also work with 
-                            healthcare organizations like Acupuntura Tung, bringing technology to traditional practices.
+                            I was previously co-founder and CTO of Helment. I also work as a freelance developer under
+                            the name <strong>softcoding for you</strong>, for clients such as Acupuntura Tung and
+                            Off Earth Games, and publish some of my own projects as open source.
                         </p>
-                        <div class="credentials">
-                            <div class="credential">
-                                <i class="fas fa-graduation-cap"></i>
-                                <div>
-                                    <h4>PhD in Neurophysiology</h4>
-                                    <p>Sorbonne Université (2018)</p>
-                                </div>
-                            </div>
-                            <div class="credential">
-                                <i class="fas fa-briefcase"></i>
-                                <div>
-                                    <h4>Research Engineer</h4>
-                                    <p>InteraXon Inc. (Muse), Toronto</p>
-                                </div>
-                            </div>
-                            <div class="credential">
-                                <i class="fas fa-rocket"></i>
-                                <div>
-                                    <h4>Former Co-founder & CTO</h4>
-                                    <p>Helment, Santiago</p>
-                                </div>
-                            </div>
-                            <div class="credential">
-                                <i class="fas fa-star"></i>
-                                <div>
-                                    <h4>Astronomy Club Founder</h4>
-                                    <p>Ciudad del Este, Chile</p>
-                                </div>
-                            </div>
-                        </div>
                     </div>
+                    <ol class="timeline" aria-label="Roles and education">
+                        <li class="timeline-item is-current">
+                            <span class="timeline-meta">Current</span>
+                            <h3>Research Engineer</h3>
+                            <p>InteraXon Inc. (Muse), Toronto</p>
+                        </li>
+                        <li class="timeline-item is-current">
+                            <span class="timeline-meta">Current</span>
+                            <h3>Freelance Developer</h3>
+                            <p>softcoding for you</p>
+                        </li>
+                        <li class="timeline-item">
+                            <span class="timeline-meta">Former</span>
+                            <h3>Co-founder & CTO</h3>
+                            <p>Helment, Santiago</p>
+                        </li>
+                        <li class="timeline-item">
+                            <span class="timeline-meta">2018</span>
+                            <h3>PhD in Neurophysiology</h3>
+                            <p>Sorbonne Université</p>
+                        </li>
+                    </ol>
                 </div>
             </div>
         </section>
 
         <section id="projects" class="projects">
             <div class="container">
-                <h2 class="section-title">Featured Projects</h2>
-                <div class="projects-grid">
-                    <article class="project-card featured">
+                <header class="section-header">
+                    <h2 class="section-title">Projects</h2>
+                </header>
+
+                <h3 class="subsection-label">Flagship projects</h3>
+                <div class="projects-grid projects-grid--flagship">
+                    <article class="project-card">
                         <div class="project-header">
-                            <h3>Securicata</h3>
+                            <img src="assets/images/projects/eazzzylearn.png" alt="" class="project-icon project-icon--framed" width="64" height="64">
+                            <div class="project-heading">
+                                <h4>EazzZyLearn</h4>
+                            </div>
                             <div class="project-links">
-                                <a href="https://securicata.app/" target="_blank" rel="noopener">
-                                    <i class="fas fa-globe"></i>
-                                </a>
-                                <a href="https://mi.securicata.app/" target="_blank" rel="noopener">
-                                    <i class="fas fa-cog"></i>
+                                <a href="https://github.com/softcodingforyou/EazzZyLearn_pc" target="_blank" rel="noopener" aria-label="EazzZyLearn on GitHub">
+                                    <i class="fab fa-github" aria-hidden="true"></i>
                                 </a>
                             </div>
                         </div>
                         <p class="project-description">
-                            DNS-level digital content blocker designed for families with young children. 
-                            Provides parental control with configurable rules, transparent privacy practices, 
-                            and minimal device intrusion while empowering users to take control of their digital experience.
+                            A working implementation of automated targeted memory reactivation (TMR)
+                            during deep sleep. Written for sleep research, the algorithm has since been
+                            implemented by a company for industrial use.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">Sleep Research</span>
+                            <span class="tech-tag">Real-time Biosignal Processing</span>
+                        </div>
+                    </article>
+
+                    <article class="project-card">
+                        <div class="project-header">
+                            <img src="assets/images/projects/kaa.png" alt="" class="project-icon" width="64" height="64">
+                            <div class="project-heading">
+                                <h4>KA'A</h4>
+                                <p class="project-client">for Off Earth Games</p>
+                            </div>
+                            <div class="project-links">
+                                <a href="https://kaa.softcodingforyou.com/" target="_blank" rel="noopener" aria-label="Play KA'A in the browser">
+                                    <i class="fas fa-globe" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <p class="project-description">
+                            The Mesoamerican ball game as a two-player abstract strategy game.
+                            It runs in the browser and can be installed as an app.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-tag">React</span>
+                            <span class="tech-tag">PWA</span>
+                            <span class="tech-tag">Strategy Game</span>
+                            <span class="tech-tag">Client Work</span>
+                        </div>
+                    </article>
+
+                    <article class="project-card">
+                        <div class="project-header">
+                            <img src="assets/images/projects/securicata.png" alt="" class="project-icon project-icon--shaped" width="64" height="64">
+                            <div class="project-heading">
+                                <h4>Securicata</h4>
+                            </div>
+                            <div class="project-links">
+                                <a href="https://securicata.app/" target="_blank" rel="noopener" aria-label="Securicata website">
+                                    <i class="fas fa-globe" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <p class="project-description">
+                            A DNS-level content blocker for families with young children. Parents set the filtering rules,
+                            the privacy practices are written out plainly, and it asks very little of the device.
                         </p>
                         <div class="project-tech">
                             <span class="tech-tag">DNS Filtering</span>
                             <span class="tech-tag">Parental Controls</span>
-                            <span class="tech-tag">Privacy-First</span>
+                            <span class="tech-tag">Privacy</span>
                             <span class="tech-tag">Family Safety</span>
                         </div>
                     </article>
 
-                    <article class="project-card featured-secondary">
+                    <article class="project-card">
                         <div class="project-header">
-                            <h3>NeuriGUI</h3>
+                            <img src="assets/brand/apps/neurigui.svg" alt="" class="project-icon" width="64" height="64">
+                            <div class="project-heading">
+                                <h4>NeuriGUI</h4>
+                            </div>
                             <div class="project-links">
-                                <a href="https://github.com/softcodingforyou/NeuriGUI" target="_blank" rel="noopener">
-                                    <i class="fab fa-github"></i>
+                                <a href="https://github.com/softcodingforyou/NeuriGUI" target="_blank" rel="noopener" aria-label="NeuriGUI on GitHub">
+                                    <i class="fab fa-github" aria-hidden="true"></i>
                                 </a>
                             </div>
                         </div>
                         <p class="project-description">
-                            Modular, cross-platform and FOSS app for exploring electrophysiological signals in real-time. 
-                            A powerful tool for neuroscience researchers and practitioners.
+                            A modular, cross-platform, open-source app for viewing and exploring
+                            electrophysiological signals in real time.
                         </p>
                         <div class="project-tech">
                             <span class="tech-tag">Python</span>
@@ -182,39 +244,25 @@
                             <span class="tech-tag">Neuroscience</span>
                         </div>
                     </article>
+                </div>
 
+                <h3 class="subsection-label">Smaller projects</h3>
+                <div class="projects-grid projects-grid--small">
                     <article class="project-card">
                         <div class="project-header">
-                            <h3>EazzZyLearn</h3>
+                            <img src="assets/brand/apps/mail2cal.svg" alt="" class="project-icon" width="40" height="40">
+                            <div class="project-heading">
+                                <h4>Mail2Cal</h4>
+                            </div>
                             <div class="project-links">
-                                <a href="https://github.com/softcodingforyou/EazzZyLearn_pc" target="_blank" rel="noopener">
-                                    <i class="fab fa-github"></i>
+                                <a href="https://github.com/softcodingforyou/Mail2Cal" target="_blank" rel="noopener" aria-label="Mail2Cal on GitHub">
+                                    <i class="fab fa-github" aria-hidden="true"></i>
                                 </a>
                             </div>
                         </div>
                         <p class="project-description">
-                            Full working algorithm for automatized TMR (Targeted Memory Reactivation) during deep sleep. 
-                            Advancing sleep research and memory enhancement techniques.
-                        </p>
-                        <div class="project-tech">
-                            <span class="tech-tag">Python</span>
-                            <span class="tech-tag">Sleep Research</span>
-                            <span class="tech-tag">AI</span>
-                        </div>
-                    </article>
-
-                    <article class="project-card">
-                        <div class="project-header">
-                            <h3>Mail2Cal</h3>
-                            <div class="project-links">
-                                <a href="https://github.com/softcodingforyou/Mail2Cal" target="_blank" rel="noopener">
-                                    <i class="fab fa-github"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <p class="project-description">
-                            AI-assisted transformation of email to calendar events. Streamlines scheduling by automatically 
-                            converting email content into structured calendar entries with smart parsing and event detection.
+                            Turns emails into calendar events, using AI to pick out the dates, times
+                            and details.
                         </p>
                         <div class="project-tech">
                             <span class="tech-tag">Python</span>
@@ -226,16 +274,19 @@
 
                     <article class="project-card">
                         <div class="project-header">
-                            <h3>EyeLabyrinth</h3>
+                            <span class="project-icon project-icon--glyph" aria-hidden="true"><i class="fas fa-gamepad"></i></span>
+                            <div class="project-heading">
+                                <h4>EyeLabyrinth</h4>
+                            </div>
                             <div class="project-links">
-                                <a href="https://github.com/softcodingforyou/EyeLabyrinth" target="_blank" rel="noopener">
-                                    <i class="fab fa-github"></i>
+                                <a href="https://github.com/softcodingforyou/EyeLabyrinth" target="_blank" rel="noopener" aria-label="EyeLabyrinth on GitHub">
+                                    <i class="fab fa-github" aria-hidden="true"></i>
                                 </a>
                             </div>
                         </div>
                         <p class="project-description">
-                            A fun little game illustrating the power of Human-Machine Interfaces. 
-                            Run through a maze by moving your head!
+                            A small game that demonstrates a human-machine interface: you steer
+                            through a maze by moving your head.
                         </p>
                         <div class="project-tech">
                             <span class="tech-tag">Python</span>
@@ -246,16 +297,19 @@
 
                     <article class="project-card">
                         <div class="project-header">
-                            <h3>Touch Torch</h3>
+                            <img src="assets/brand/apps/touch-torch.svg" alt="" class="project-icon" width="40" height="40">
+                            <div class="project-heading">
+                                <h4>Touch Torch</h4>
+                            </div>
                             <div class="project-links">
-                                <a href="https://github.com/softcodingforyou/touchtorch" target="_blank" rel="noopener">
-                                    <i class="fab fa-github"></i>
+                                <a href="https://github.com/softcodingforyou/touchtorch" target="_blank" rel="noopener" aria-label="Touch Torch on GitHub">
+                                    <i class="fab fa-github" aria-hidden="true"></i>
                                 </a>
                             </div>
                         </div>
                         <p class="project-description">
-                            A simple Flutter/Dart-based mobile app: You touch the screen and the light turns on. 
-                            The light stays on until you lift your finger off the screen!
+                            A flashlight app written with as little code as possible while still doing something
+                            useful: the light stays on while your finger touches the screen and turns off when you lift it.
                         </p>
                         <div class="project-tech">
                             <span class="tech-tag">Flutter</span>
@@ -266,16 +320,19 @@
 
                     <article class="project-card">
                         <div class="project-header">
-                            <h3>PrendeTuMente</h3>
+                            <span class="project-icon project-icon--glyph" aria-hidden="true"><i class="fas fa-heart-pulse"></i></span>
+                            <div class="project-heading">
+                                <h4>PrendeTuMente</h4>
+                            </div>
                             <div class="project-links">
-                                <a href="https://github.com/softcodingforyou/PrendeTuMente" target="_blank" rel="noopener">
-                                    <i class="fab fa-github"></i>
+                                <a href="https://github.com/softcodingforyou/PrendeTuMente" target="_blank" rel="noopener" aria-label="PrendeTuMente on GitHub">
+                                    <i class="fab fa-github" aria-hidden="true"></i>
                                 </a>
                             </div>
                         </div>
                         <p class="project-description">
-                            Workshop illustrating heart-controlled external devices through Human-Machine Interfaces. 
-                            Exploring physiological signal processing for device control.
+                            Workshop material showing how heart signals can control external devices
+                            through a human-machine interface.
                         </p>
                         <div class="project-tech">
                             <span class="tech-tag">Python</span>
@@ -286,7 +343,7 @@
 
                     <!-- <article class="project-card">
                         <div class="project-header">
-                            <h3>Cool Tea</h3>
+                            <h4>Cool Tea</h4>
                             <div class="project-links">
                                 <a href="https://github.com/softcodingforyou/cool_tea" target="_blank" rel="noopener">
                                     <i class="fab fa-github"></i>
@@ -294,7 +351,7 @@
                             </div>
                         </div>
                         <p class="project-description">
-                            Thoughtful mobile app that reminds you to drink your tea at the perfect temperature. 
+                            Thoughtful mobile app that reminds you to drink your tea at the perfect temperature.
                             Combining utility with delightful user experience.
                         </p>
                         <div class="project-tech">
@@ -304,34 +361,36 @@
                         </div>
                     </article> -->
                 </div>
-                
+
                 <div class="projects-cta">
-                    <a href="https://github.com/softcodingforyou" class="btn btn-outline" target="_blank" rel="noopener">
-                        <i class="fab fa-github"></i> View All Projects
+                    <a href="https://github.com/softcodingforyou" class="btn btn-secondary" target="_blank" rel="noopener">
+                        <i class="fab fa-github" aria-hidden="true"></i> View All Projects
                     </a>
                 </div>
             </div>
         </section>
 
-        <section id="experience" class="experience">
+        <section id="experience" class="experience section-alt">
             <div class="container">
-                <h2 class="section-title">Additional Work & Activities</h2>
+                <header class="section-header">
+                    <h2 class="section-title">Additional Work & Activities</h2>
+                </header>
                 <div class="experience-grid">
                     <article class="experience-card">
                         <div class="experience-header">
-                            <i class="fas fa-yin-yang"></i>
+                            <span class="project-icon project-icon--glyph" aria-hidden="true"><i class="fas fa-yin-yang"></i></span>
                             <h3>Acupuntura Tung</h3>
                         </div>
                         <p class="experience-description">
-                            Technology consulting and development for traditional Chinese medicine practice, 
-                            modernizing patient management and treatment tracking systems.
+                            Technology consulting and development for a traditional Chinese medicine practice,
+                            including tools for patient management and treatment tracking.
                         </p>
                         <div class="experience-links">
                             <a href="https://play.google.com/store/apps/details?id=com.acupuntura.tung" target="_blank" rel="noopener">
-                                <i class="fab fa-google-play"></i> Download on Google Play
+                                <i class="fab fa-google-play" aria-hidden="true"></i> Get it on Google Play
                             </a>
                             <a href="https://www.instagram.com/acupuntura_hoy" target="_blank" rel="noopener">
-                                <i class="fab fa-instagram"></i> Follow on Instagram
+                                <i class="fab fa-instagram" aria-hidden="true"></i> Instagram
                             </a>
                         </div>
                         <div class="experience-tech">
@@ -343,19 +402,16 @@
 
                     <article class="experience-card">
                         <div class="experience-header">
-                            <i class="fas fa-star"></i>
-                            <h3>Club de Astronomía Ciudad del Este</h3>
+                            <img src="assets/images/projects/club-astronomia-puente-alto.png" alt="" class="project-icon" width="48" height="48">
+                            <h3>Club de Astronomía Puente Alto</h3>
                         </div>
                         <p class="experience-description">
-                            Founded and lead an astronomy club in Chile, organizing workshops, stargazing sessions, 
-                            and educational activities for the community. Making astronomy accessible to all ages.
+                            An astronomy club I founded and lead in Chile, with workshops, stargazing sessions
+                            and other activities open to all ages.
                         </p>
                         <div class="experience-links">
-                            <a href="https://astronomiaciudaddeleste.godaddysites.com/" target="_blank" rel="noopener">
-                                <i class="fas fa-globe"></i> Visit Club Website
-                            </a>
-                            <a href="https://www.instagram.com/astronomiaciudaddeleste/" target="_blank" rel="noopener">
-                                <i class="fab fa-instagram"></i> Follow on Instagram
+                            <a href="https://chat.whatsapp.com/JG7glXosvffIB10JXMBkhK" target="_blank" rel="noopener">
+                                <i class="fab fa-whatsapp" aria-hidden="true"></i> Join the WhatsApp community
                             </a>
                         </div>
                         <div class="experience-tech">
@@ -370,46 +426,28 @@
 
         <section id="skills" class="skills">
             <div class="container">
-                <h2 class="section-title">Skills & Technologies</h2>
+                <header class="section-header">
+                    <h2 class="section-title">Skills & Technologies</h2>
+                </header>
                 <div class="skills-grid">
                     <div class="skill-category">
-                        <h3><i class="fas fa-code"></i> Programming</h3>
-                        <div class="skill-list">
-                            <div class="skill-item">
-                                <span class="skill-name">Python (Full Stack)</span>
-                                <div class="skill-level">
-                                    <div class="skill-bar" data-level="5"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <span class="skill-name">Flutter/Dart (Full Stack)</span>
-                                <div class="skill-level">
-                                    <div class="skill-bar" data-level="4"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <span class="skill-name">MATLAB (Backend)</span>
-                                <div class="skill-level">
-                                    <div class="skill-bar" data-level="4"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <span class="skill-name">Unity (Full Stack)</span>
-                                <div class="skill-level">
-                                    <div class="skill-bar" data-level="3"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <span class="skill-name">REST API</span>
-                                <div class="skill-level">
-                                    <div class="skill-bar" data-level="2"></div>
-                                </div>
-                            </div>
-                        </div>
+                        <h3><i class="fas fa-code" aria-hidden="true"></i> Programming</h3>
+                        <p class="expertise-label">Core</p>
+                        <ul class="expertise-list">
+                            <li><span class="expertise-name">Python</span><span class="expertise-note">full stack</span></li>
+                            <li><span class="expertise-name">Flutter / Dart</span><span class="expertise-note">full stack</span></li>
+                            <li><span class="expertise-name">MATLAB</span><span class="expertise-note">backend</span></li>
+                        </ul>
+                        <p class="expertise-label">Also</p>
+                        <ul class="expertise-list">
+                            <li><span class="expertise-name">React</span><span class="expertise-note">web apps</span></li>
+                            <li><span class="expertise-name">Unity</span><span class="expertise-note">full stack</span></li>
+                            <li><span class="expertise-name">REST APIs</span></li>
+                        </ul>
                     </div>
-                    
-                    <div class="skill-category">
-                        <h3><i class="fas fa-brain"></i> Specialization</h3>
+
+                    <div class="skill-category skill-category--wide">
+                        <h3><i class="fas fa-brain" aria-hidden="true"></i> Specialization</h3>
                         <div class="skills-tags">
                             <span class="skill-tag">Neurophysiology</span>
                             <span class="skill-tag">Brain-Computer Interfaces</span>
@@ -421,67 +459,13 @@
                     </div>
 
                     <div class="skill-category">
-                        <h3><i class="fas fa-globe"></i> Languages</h3>
-                        <div class="skill-list">
-                            <div class="skill-item">
-                                <span class="skill-name">German</span>
-                                <div class="skill-level">
-                                    <div class="skill-bar" data-level="5"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <span class="skill-name">French</span>
-                                <div class="skill-level">
-                                    <div class="skill-bar" data-level="5"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <span class="skill-name">English</span>
-                                <div class="skill-level">
-                                    <div class="skill-bar" data-level="5"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <span class="skill-name">Spanish</span>
-                                <div class="skill-level">
-                                    <div class="skill-bar" data-level="4"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="contact" class="contact">
-            <div class="container">
-                <h2 class="section-title">Let's Connect</h2>
-                <div class="contact-content">
-                    <p class="contact-intro">
-                        Interested in collaborating on innovative projects or discussing neuroscience and technology? 
-                        I'd love to hear from you.
-                    </p>
-                    <div class="contact-links">
-                        <a href="https://www.linkedin.com/in/david-marcel-baum/" class="contact-link" target="_blank" rel="noopener">
-                            <i class="fab fa-linkedin"></i>
-                            <span>LinkedIn</span>
-                        </a>
-                        <a href="https://github.com/softcodingforyou" class="contact-link" target="_blank" rel="noopener">
-                            <i class="fab fa-github"></i>
-                            <span>GitHub</span>
-                        </a>
-                        <a href="mailto:contact@davidb.addy.io" class="contact-link" target="_blank" rel="noopener">
-                            <i class="fas fa-envelope"></i>
-                            <span>Email</span>
-                        </a>
-                        <a href="https://wa.me/56988956928" class="contact-link" target="_blank" rel="noopener">
-                            <i class="fab fa-whatsapp"></i>
-                            <span>WhatsApp</span>
-                        </a>
-                        <!-- <a href="https://davidbaum.org/" class="contact-link" target="_blank" rel="noopener">
-                            <i class="fas fa-globe"></i>
-                            <span>Personal Website</span>
-                        </a> -->
+                        <h3><i class="fas fa-globe" aria-hidden="true"></i> Languages</h3>
+                        <ul class="expertise-list">
+                            <li><span class="expertise-name">German</span><span class="expertise-note">fluent</span></li>
+                            <li><span class="expertise-name">French</span><span class="expertise-note">fluent</span></li>
+                            <li><span class="expertise-name">English</span><span class="expertise-note">fluent</span></li>
+                            <li><span class="expertise-name">Spanish</span><span class="expertise-note">proficient</span></li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -489,8 +473,19 @@
     </main>
 
     <footer class="footer">
-        <div class="container">
-            <p>&copy; 2024 David Baum | SoftcodingForYou. All rights reserved.</p>
+        <div class="container footer-inner">
+            <div class="footer-meta">
+                <nav class="footer-links" aria-label="Elsewhere">
+                    <a href="https://github.com/softcodingforyou" target="_blank" rel="noopener">
+                        <i class="fab fa-github" aria-hidden="true"></i> github.com/softcodingforyou
+                    </a>
+                    <a href="mailto:portfolio@davidb.addy.io">
+                        <i class="fas fa-envelope" aria-hidden="true"></i> portfolio@davidb.addy.io
+                    </a>
+                </nav>
+                <p class="footer-copy">&copy; <span id="current-year">2026</span> David Baum</p>
+            </div>
+            <img src="assets/brand/badge/made-by-dark.svg" alt="made by softcoding for you" class="footer-badge" width="218" height="30">
         </div>
     </footer>
 
